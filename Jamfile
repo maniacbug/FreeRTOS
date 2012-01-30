@@ -1,0 +1,31 @@
+ORIGINAL_DIR	= $(HOME)/Source/Arduino/1284P/FreeRTOS ;
+
+rule Files
+{
+	for _i in $(>)
+	{
+		local _o = $(_i:D=$(<)) ;
+		File $(_o) : $(_i) ;
+		Depends $(_o) : $(<) ;
+		Clean clean : $(_o) ;
+		MkDir $(<) ;
+	}
+}
+
+Files $(PWD) : [ GLOB $(ORIGINAL_DIR) : *.c ] [ GLOB $(ORIGINAL_DIR)/include : *.h ] ;
+
+
+#james@dogbone:~/Source/Arduino/libraries/FreeRTOS$ ls ../../1284P/FreeRTOS/ex01_blinky/
+#ex01_blinky.cpp  Jamfile  out  version.h
+#james@dogbone:~/Source/Arduino/libraries/FreeRTOS$ ls ../../1284P/FreeRTOS/ex02_twotasks/
+#ex02_twotasks.cpp  Jamfile  out  version.h
+#james@dogbone:~/Source/Arduino/libraries/FreeRTOS$ ls ../../1284P/FreeRTOS/ex03_buttonled/
+#ex03_buttonled.cpp  Jamfile  out  version.h
+#james@dogbone:~/Source/Arduino/libraries/FreeRTOS$ ls ../../1284P/FreeRTOS/ex04_manybuttons/
+
+Files $(PWD)/examples/blinky : [ GLOB $(ORIGINAL_DIR)/ex01_blinky : *.cpp *.pde *.ino ] ; 
+Files $(PWD)/examples/twotasks : [ GLOB $(ORIGINAL_DIR)/ex02_twotasks : *.cpp *.pde *.ino ] ; 
+Files $(PWD)/examples/buttonled : [ GLOB $(ORIGINAL_DIR)/ex03_buttonled : *.cpp *.pde *.ino ] ; 
+Files $(PWD)/examples/manybuttons : [ GLOB $(ORIGINAL_DIR)/ex04_manybuttons : *.cpp *.pde *.ino ] ; 
+Files $(PWD)/examples/pingpair : [ GLOB $(ORIGINAL_DIR)/pingpair_freertos : *.cpp *.pde *.ino *.h ] ; 
+
