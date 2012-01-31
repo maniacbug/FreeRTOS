@@ -1,0 +1,7 @@
+SubDir TOP examples ;
+
+SubInclude TOP examples blinky ;
+SubInclude TOP examples buttonled ;
+SubInclude TOP examples manybuttons ;
+#SubInclude TOP examples pingpair ;
+SubInclude TOP examples twotasks ;

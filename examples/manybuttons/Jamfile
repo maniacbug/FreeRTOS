@@ -1,0 +1,17 @@
+SubDir TOP examples manybuttons ;
+
+# Set up output directories
+LOCATE_TARGET	= $(SEARCH_SOURCE)/out/$(F_CPU) ;
+LOCATE_SOURCE	= $(LOCATE_TARGET) ;
+
+# Pull in local libraries
+SKETCH_LIBS	= MemoryFree ;
+HDRS		+= $(SKETCH_DIR)/libraries/$(SKETCH_LIBS) ;
+
+# FreeRTOS library
+HDRS		+= $(TOP)  ;
+Library $(LOCATE_TARGET)/freertos : [ GLOB $(TOP) : $(MODULE_EXT) ] ; 
+
+# Main output executable
+Arduino $(SEARCH_SOURCE:B).elf : [ GLOB $(SEARCH_SOURCE) $(SKETCH_DIR)/libraries/$(SKETCH_LIBS) : $(MODULE_EXT) ] ;
+LinkLibraries $(SEARCH_SOURCE:B).elf : $(LOCATE_TARGET)/freertos : $(TOP)/$(F_CPU)/freertos ; 

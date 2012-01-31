@@ -1,0 +1,19 @@
+SubDir TOP examples pingpair ;
+
+# Set up output directories
+LOCATE_TARGET	= $(SEARCH_SOURCE)/out/$(F_CPU) ;
+LOCATE_SOURCE	= $(LOCATE_TARGET) ;
+
+# Pull in local libraries
+SKETCH_LIBS	= MemoryFree RF24 ;
+ARDUINO_LIBS	= SPI ;
+HDRS		+= $(ARDUINO_DIR)/libraries/$(ARDUINO_LIBS) $(SKETCH_DIR)/libraries/$(SKETCH_LIBS) ;
+Library $(LOCATE_TARGET)/libs : [ GLOB $(ARDUINO_DIR)/libraries/$(ARDUINO_LIBS) $(SKETCH_DIR)/libraries/$(SKETCH_LIBS) : $(MODULE_EXT) ] ; 
+
+# FreeRTOS library
+HDRS		+= $(TOP)  ;
+Library $(LOCATE_TARGET)/freertos : [ GLOB $(TOP) : $(MODULE_EXT) ] ; 
+
+# Main output executable
+Arduino $(SEARCH_SOURCE:B).elf : [ GLOB $(SEARCH_SOURCE) : $(MODULE_EXT) ] ;
+LinkLibraries $(SEARCH_SOURCE:B).elf : $(LOCATE_TARGET)/freertos libs ; 
